@@ -49,10 +49,11 @@ class Plugin
         require_once ARC_DOCS_PATH . 'includes/Database.php';
         require_once ARC_DOCS_PATH . 'includes/CollectionRegistration.php';
         
-        // Load admin pages when in admin
         if (is_admin()) {
             require_once ARC_DOCS_PATH . 'includes/Admin/AdminPages.php';
+            require_once ARC_DOCS_PATH . 'includes/Admin/ApiReference.php';
             new Admin\AdminPages();
+            new Admin\ApiReference();
         }
         
         register_activation_hook(ARC_DOCS_FILE, [$this, 'activate']);
