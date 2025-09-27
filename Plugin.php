@@ -46,6 +46,12 @@ class Plugin
         
         require_once ARC_DOCS_PATH . 'rewrite-rules.php';
         
+        // Load admin pages when in admin
+        if (is_admin()) {
+            require_once ARC_DOCS_PATH . 'includes/Admin/AdminPages.php';
+            new Admin\AdminPages();
+        }
+        
         register_activation_hook(ARC_DOCS_FILE, [$this, 'activate']);
         register_deactivation_hook(ARC_DOCS_FILE, [$this, 'deactivate']);
     }
@@ -65,7 +71,7 @@ class Plugin
     }
 
     public function registerCollection()
-{
+    {
         if (!class_exists('ARC\Gateway\Collection')) {
             add_action('admin_notices', function() {
                 echo '<div class="notice notice-error"><p><strong>ARC Docs:</strong> Requires ARC Gateway plugin to be active.</p></div>';
