@@ -43,6 +43,7 @@ class Plugin
         add_action('arc_forge_eloquent_booted', [$this, 'loadModel'], 10);
         add_action('plugins_loaded', [$this, 'checkDatabase'], 5);
         add_action('init', [$this, 'registerCollection'], 15);
+        add_action('arc_lens_register_filtersets', [$this, 'registerFilterSet']);
         
         require_once ARC_DOCS_PATH . 'includes/rewrite-rules.php';
         require_once ARC_DOCS_PATH . 'includes/helpers.php';
@@ -62,7 +63,7 @@ class Plugin
     
     public function loadModel()
     {
-        require_once ARC_DOCS_PATH . 'models/Doc.php';
+        require_once ARC_DOCS_PATH . 'includes/Models/Doc.php';
     }
     
     public function checkDatabase()
@@ -73,6 +74,14 @@ class Plugin
     public function registerCollection()
     {
         CollectionRegistration::register();
+    }
+
+    public function registerFilterSet()
+    {
+        require_once ARC_DOCS_PATH . 'includes/DocsFilterSet.php';
+        
+        $docsFilterSet = new DocsFilterSet();
+        arc_lens_register('docs', $docsFilterSet);
     }
 
     public function activate()
